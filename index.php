@@ -38,18 +38,21 @@ $rqData        = new CsvReader("storage/Данные для загрузки (2)
 
 foreach ($rqData->rows() as $row) {
     if(is_numeric($row[0])){
-        CRest::call('crm.requisite.add',[ // создаем новые реквизиты
-            'fields'=> [
-                "ENTITY_TYPE_ID"    => 4,
-                "ENTITY_ID"         => $row[0],
-                "PRESET_ID"         => 1,
-                "NAME"              => "Реквизит " . date('d-m-Y',time()),
-                "ACTIVE"            => "Y",
-                'TITLE'             => $row[1],
-                'RQ_INN'            => $row[2],
-                'RQ_KPP'            => $row[3],
-            ]
-        ]);
+        if(array_key_exists($row[0],$newRq)){
+            CRest::call('crm.requisite.add',[ // создаем новые реквизиты
+                'fields'=> [
+                    "ENTITY_TYPE_ID"    => 4,
+                    "ENTITY_ID"         => $row[0],
+                    "PRESET_ID"         => 1,
+                    "NAME"              => "Реквизит " . date('d-m-Y',time()),
+                    "ACTIVE"            => "Y",
+                    'TITLE'             => $row[1],
+                    'RQ_INN'            => $row[2],
+                    'RQ_KPP'            => $row[3],
+                ]
+            ]);
+        }
+
     }
 }
 
